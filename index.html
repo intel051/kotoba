@@ -22,7 +22,7 @@ html{-webkit-text-size-adjust:100%}
 body{font-family:"Pretendard Variable",Pretendard,system-ui,sans-serif;background:var(--bg);color:var(--ink);
   min-height:100dvh;line-height:1.55;letter-spacing:-.011em;-webkit-font-smoothing:antialiased;
   padding:max(24px,env(safe-area-inset-top)) 20px max(64px,env(safe-area-inset-bottom))}
-main{max-width:640px;margin-inline:auto}
+main{width:100%;max-width:640px;min-width:0;margin-inline:auto}
 button,input,textarea{font:inherit;color:inherit;letter-spacing:inherit}
 button{cursor:pointer;border:0;background:none}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
@@ -39,7 +39,7 @@ h1 small{font-weight:400;color:var(--sub);font-size:.9rem;margin-left:8px}
   box-shadow:0 1px 2px #0001,0 4px 12px -4px #0002;transition:translate .45s var(--ease)}
 .tabs:has(button:nth-child(2)[aria-selected=true]) .pill{translate:100% 0}
 
-.field{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:6px 6px 6px 18px;
+.field{display:flex;align-items:center;gap:12px;min-width:0;max-width:100%;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:6px 6px 6px 18px;
   transition:border-color .3s,box-shadow .4s var(--ease)}
 .field:focus-within{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in oklch,var(--accent) 16%,transparent)}
 .field svg{flex:none;width:20px;height:20px;stroke:var(--sub);fill:none;stroke-width:2;stroke-linecap:round}
@@ -53,7 +53,7 @@ h1 small{font-weight:400;color:var(--sub);font-size:.9rem;margin-left:8px}
 .btn.plain{background:none;color:var(--sub);font-weight:500}
 
 ul{list-style:none;padding:0;display:grid;gap:12px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px;display:grid;grid-template-columns:1fr auto;gap:4px 12px;
+.card{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;
   animation:rise .6s var(--ease) both;animation-delay:calc(var(--i,0)*50ms);transition:border-color .3s,box-shadow .4s var(--ease),translate .4s var(--ease)}
 @media (hover:hover){.card:hover{border-color:color-mix(in oklch,var(--accent) 40%,var(--line));translate:0 -2px;box-shadow:0 10px 30px -14px #0003}}
 @keyframes rise{from{opacity:0;translate:0 14px;filter:blur(4px)}}
@@ -85,6 +85,8 @@ button.ja{text-align:left;font-size:1rem;font-weight:500;line-height:1.5}
 .ico.on{background:var(--accent);color:var(--bg)}
 .ico.on svg path{fill:currentColor}
 .ico.del:hover{color:var(--danger)}
+.card>*,.det>*,.ex>*{min-width:0}
+.r,.mean,.note,.ex .ko{overflow-wrap:anywhere}
 .note{grid-column:1/-1;margin-top:8px;font-size:.88rem;color:var(--sub);outline:0;border-radius:8px;padding:4px 8px;margin-inline:-8px;min-height:1.9em}
 .note:empty::before{content:"메모 추가";opacity:.6}.note:focus{background:var(--bg);color:var(--ink)}
 
@@ -114,7 +116,8 @@ dialog[open]::backdrop{background:oklch(15% .02 255/.4);backdrop-filter:blur(6px
 dialog h2{font-size:1.2rem;margin-bottom:16px}
 form{display:grid;gap:12px}
 dialog label{display:grid;gap:6px;font-size:.85rem;color:var(--sub);font-weight:500}
-dialog label input,dialog label textarea{border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:11px 14px;font-size:1rem;color:var(--ink);outline:0;resize:none;field-sizing:content;min-height:46px;transition:border-color .25s,box-shadow .3s}
+dialog label,dialog form{min-width:0}
+dialog label input,dialog label textarea{width:100%;min-width:0;max-width:100%;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:11px 14px;font-size:1rem;color:var(--ink);outline:0;resize:none;field-sizing:content;min-height:46px;transition:border-color .25s,box-shadow .3s}
 dialog label input:focus,dialog label textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in oklch,var(--accent) 16%,transparent)}
 .row{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
 
@@ -145,7 +148,7 @@ dialog h2{margin:0}.dh .ico{margin-right:-8px}
   header{padding-block:12px 24px}
   h1{font-size:1.35rem}h1 small{font-size:.82rem}
   .field{padding-left:16px}.field input{font-size:1.1rem}
-  .tools{gap:10px}.tools .field{flex-basis:100%}
+  .tools{gap:10px}.tools .field{flex:0 1 100%;width:100%}
   .switch{width:100%;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px;color:var(--ink);font-weight:500}
   .switch small{display:block;color:var(--sub);font-weight:400;font-size:.8rem}
   .card{padding:16px 14px 14px;border-radius:16px;column-gap:8px}
@@ -172,15 +175,34 @@ dialog h2{margin:0}.dh .ico{margin-right:-8px}
   .switch span{display:flex;align-items:baseline;flex-wrap:wrap;column-gap:8px}
   .switch small{display:inline;margin:0}
 }
+
+[hidden]{display:none!important}
+.welcome{max-width:460px;margin:12vh auto 0;padding:32px 24px;background:var(--surface);border:1px solid var(--line);border-radius:24px;text-align:center}
+.welcome h1{font-size:2.2rem;margin-bottom:12px}.welcome p{color:var(--sub);margin:12px 0 28px}
+.google{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;background:var(--surface);color:var(--ink);border:1px solid var(--line);min-height:50px}
+.google svg{width:20px;height:20px}button:disabled{opacity:.55;cursor:wait}
+#login-status{font-size:.88rem;line-height:1.7;white-space:pre-line;margin-top:18px}
+.account{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:20px;flex-wrap:wrap}
+.account span{font-size:.85rem;color:var(--sub);overflow-wrap:anywhere}.account strong{display:block;font-size:.9rem}
+#migrate{padding:16px;border:1px solid var(--line);border-radius:14px;margin-bottom:20px;font-size:.9rem}#migrate p{margin-bottom:10px}
 </style>
 </head>
 <body>
-<main>
+<section id="welcome" class="welcome" aria-labelledby="welcome-title">
+  <h1 id="welcome-title" lang="ja">言葉帳</h1>
+  <p>조금씩 쌓이는 나만의 일본어.<br>Google 계정으로 단어장을 이어서 공부하세요.</p>
+  <button class="btn google" id="google-login" disabled><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.2H24v8h11a9.4 9.4 0 0 1-4.1 6.2v5.2h6.6c3.9-3.6 6.1-8.8 6.1-15.2z"/><path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.9l-6.6-5.2c-1.8 1.2-4.1 1.9-6.9 1.9-5.3 0-9.8-3.6-11.4-8.4H5.8v5.3A20.4 20.4 0 0 0 24 44z"/><path fill="#FBBC05" d="M12.6 27.4a12.3 12.3 0 0 1 0-7.8v-5.3H5.8a20.5 20.5 0 0 0 0 18.4z"/><path fill="#EA4335" d="M24 11.2c3 0 5.6 1 7.7 3l5.7-5.7A19.5 19.5 0 0 0 24 3 20.4 20.4 0 0 0 5.8 14.3l6.8 5.3c1.6-4.8 6.1-8.4 11.4-8.4z"/></svg>Google 계정으로 시작하기</button>
+  <p id="login-status" role="status">로그인 준비 중…</p>
+  <button class="btn plain" id="auth-reset" hidden>로그아웃하고 다시 시작</button>
+</section>
+<main id="app" hidden>
   <header>
     <h1>言葉帳<small>일본어 단어장</small></h1>
     <span id="count"></span>
   </header>
 
+  <div class="account"><div><strong id="account-name"></strong><span id="sync-status" role="status"></span></div><button class="btn plain" id="logout">로그아웃</button></div>
+  <div id="migrate" hidden><p>이 브라우저에 저장했던 단어가 있어요. 현재 계정으로 가져올까요?</p><button class="btn ghost" id="import-local">기존 단어 가져오기</button><button class="btn plain" id="skip-import">나중에</button></div>
   <nav class="tabs" role="tablist">
     <button role="tab" id="t-search" aria-selected="true" aria-controls="p-search">검색</button>
     <button role="tab" id="t-saved" aria-selected="false" aria-controls="p-saved">내 단어장</button>
@@ -219,6 +241,7 @@ dialog h2{margin:0}.dh .ico{margin-right:-8px}
     <label>읽는 법<input name="reading" lang="ja" placeholder="べんきょう" autocomplete="off"></label>
     <label>뜻 (한국어)<textarea name="meaning" required rows="1" placeholder="공부"></textarea></label>
     <label>메모<textarea name="note" rows="1" placeholder="예문, 헷갈리는 점 등"></textarea></label>
+    <p id="form-error" role="alert" hidden style="color:var(--danger);font-size:.88rem"></p>
     <div class="row"><button type="button" class="btn plain" id="cancel">취소</button><button class="btn">저장</button></div>
   </form>
 </dialog>
@@ -234,9 +257,9 @@ const ICON = {
 };
 
 /* ---------- 저장소 ---------- */
-const KEY = 'kotoba:words';
-let words = (() => { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch { return []; } })();
-const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(words)); } catch {} render(); };
+const KEY = 'kotoba:words'; // 이전 버전의 단어는 가져오기 전까지 보존합니다.
+let words = [], saveWords = () => {}, sessionEpoch = 0;
+const persist = () => { saveWords(); render(); };
 const same = (a, b) => a.word === b.word && (a.reading || '') === (b.reading || '');
 const isSaved = w => words.some(x => same(x, w));
 
@@ -341,13 +364,14 @@ async function enrich(w) {
   if (w.ko === undefined || w.examples === undefined) gaveUp.add(k);
   return true;
 }
-const quiet = () => { try { localStorage.setItem(KEY, JSON.stringify(words)); } catch {} };
+const quiet = () => saveWords();
 const io = new IntersectionObserver(es => es.forEach(async e => {   // 화면에 보이는 카드만 불러와요
   if (!e.isIntersecting) return;
   io.unobserve(e.target);
+  const epoch = sessionEpoch;
   const c = e.target, saved = !!c.dataset.id;
   const w = saved ? words.find(x => x.id === c.dataset.id) : current[c.dataset.i];
-  if (!w || !(await enrich(w))) return;
+  if (!w || !(await enrich(w)) || epoch !== sessionEpoch) return;
   if (!saved) { const s = words.find(x => same(x, w)); if (s) { s.ko ??= w.ko; s.koAuto ??= w.koAuto; s.examples ??= w.examples; quiet(); } }
   else quiet();
   const d = c.querySelector('.det'); if (d && c.isConnected) d.innerHTML = details(w, saved);
@@ -385,7 +409,7 @@ function render() {
   const f = $('#filter').value.trim().toLowerCase();
   const list = words.filter(w => !f || [w.word, w.reading, ...w.meanings, w.note].join(' ').toLowerCase().includes(f));
   $('#saved').innerHTML = list.length ? list.map((w, i) => `
-    <li class="card" style="--i:${Math.min(i, 8)}" data-id="${w.id}" tabindex="0">
+    <li class="card" style="--i:${Math.min(i, 8)}" data-id="${esc(w.id)}" tabindex="0">
       <div><div class="w" lang="ja">${esc(w.word)}</div><div class="r" lang="ja">${esc(w.reading)}</div>${tags(w)}</div>
       <div class="acts">${speakBtn}<button class="ico del" data-a="del" aria-label="삭제">${ICON.del}</button></div>
       <div class="det">${details(w, true)}</div><div class="note" contenteditable="plaintext-only" data-a="note" role="textbox" aria-label="메모">${esc(w.note || '')}</div></li>`).join('')
@@ -423,14 +447,15 @@ function speak(text) {
 let tt; function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => el.classList.remove('on'), 1800); }
 
 document.addEventListener('click', e => {
-  if (e.target.closest('[data-manual]')) { $('#form').reset(); if ($('#q').value && $('#p-search').hidden === false) $('#form').word.value = $('#q').value.trim(); $('#dlg').showModal(); return; }
+  if (e.target.closest('[data-manual]')) { $('#form').reset(); $('#form-error').hidden = true; if ($('#q').value && $('#p-search').hidden === false) $('#form').elements.namedItem('word').value = $('#q').value.trim(); $('#dlg').showModal(); return; }
   const card = e.target.closest('.card'); const act = e.target.closest('[data-a]')?.dataset.a;
   if (!card) return;
   if (act === 'speakex') return speak(e.target.closest('[data-a]').textContent);
   if (card.dataset.id) {
     const w = words.find(x => x.id === card.dataset.id);
+    if (!w) return;
     if (act === 'speak') speak(w.reading || w.word);
-    else if (act === 'del') { card.classList.add('out'); setTimeout(() => { words = words.filter(x => x.id !== w.id); persist(); toast('삭제했어요'); }, 350); }
+    else if (act === 'del') { const epoch = sessionEpoch; card.classList.add('out'); setTimeout(() => { if (epoch !== sessionEpoch) return; words = words.filter(x => x.id !== w.id); persist(); toast('삭제했어요'); }, 350); }
     else if (card.closest('.study')) card.classList.toggle('show');
   } else if (card.dataset.i != null) {
     const w = current[card.dataset.i];
@@ -454,11 +479,15 @@ document.addEventListener('focusout', e => {
 $('#cancel').onclick = () => $('#dlg').close();
 $('#dlg').addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.close(); });
 $('#form').addEventListener('submit', e => {
-  const f = e.target; const w = { id: crypto.randomUUID(), word: f.word.value.trim(), reading: f.reading.value.trim(),
-    meanings: f.meaning.value.split('\n').map(s => s.trim()).filter(Boolean), ko: null, pos: '', jlpt: '', common: false, note: f.note.value.trim(), added: Date.now() };
-  if (!w.word || !w.meanings.length) return;
+  e.preventDefault();
+  const showError = text => { $('#form-error').textContent = text; $('#form-error').hidden = false; };
+  const fields = e.target.elements;
+  const w = { id: crypto.randomUUID(), word: fields.namedItem('word').value.trim(), reading: fields.namedItem('reading').value.trim(),
+    meanings: fields.namedItem('meaning').value.split('\n').map(s => s.trim()).filter(Boolean), ko: null, pos: '', jlpt: '', common: false, note: fields.namedItem('note').value.trim(), added: Date.now() };
+  if (!w.word || !w.meanings.length) { showError('단어와 뜻을 입력해 주세요'); return; }
   w.ko = w.meanings; w.koAuto = false;
-  if (isSaved(w)) toast('이미 저장된 단어예요'); else { words.unshift(w); toast('단어를 저장했어요'); persist(); }
+  if (isSaved(w)) { showError('이미 저장된 단어예요'); return; }
+  words.unshift(w); persist(); $('#dlg').close(); toast('단어를 저장했어요');
 });
 
 /* ---------- 탭 · 필터 · 암기 모드 ---------- */
@@ -486,12 +515,157 @@ document.querySelectorAll('.clr').forEach(b => b.onclick = () => {
 });
 document.addEventListener('keydown', e => {            // 데스크톱: / 로 검색창 포커스
   const a = document.activeElement;
-  if (e.key === '/' && !/INPUT|TEXTAREA/.test(a.tagName) && !a.isContentEditable && !$('#dlg').open) {
+  if (e.key === '/' && !$('#app').hidden && !/INPUT|TEXTAREA/.test(a.tagName) && !a.isContentEditable && !$('#dlg').open) {
     e.preventDefault(); ($('#p-search').hidden ? $('#filter') : $('#q')).focus();
   }
 });
 render();
-if (matchMedia('(hover:hover)').matches) $('#q').focus();   // 모바일은 키보드가 바로 뜨지 않게
+// 로그인 후 검색창을 표시합니다.   // 모바일은 키보드가 바로 뜨지 않게
+</script>
+<script type="module">
+// Firebase 콘솔 > 프로젝트 설정 > 내 앱 > 웹 앱의 firebaseConfig를 여기에 붙여 넣으세요.
+// 웹 앱 설정 값은 공개용입니다. 서비스 계정 비밀 키는 넣지 마세요.
+const firebaseConfig = {
+  apiKey: "AIzaSyC8j3el-HOwikz0fw8zxxUYJLT8NDIkcCU",
+  authDomain: "jlpt-5d996.firebaseapp.com",
+  projectId: "jlpt-5d996",
+  storageBucket: "jlpt-5d996.firebasestorage.app",
+  messagingSenderId: "771365651185",
+  appId: "1:771365651185:web:2a9342ab2e3b62e9421f50",
+  measurementId: "G-7QJJ6PY0SG"
+};
+// 예: { apiKey: "...", authDomain: "프로젝트.firebaseapp.com", projectId: "...", appId: "..." }
+
+const status = text => { document.querySelector('#login-status').textContent = text; };
+const login = document.querySelector('#google-login');
+const reset = document.querySelector('#auth-reset');
+const sync = text => { document.querySelector('#sync-status').textContent = text; };
+const clean = value => JSON.parse(JSON.stringify(value));
+const normalize = list => Array.isArray(list) ? list.filter(w => w && typeof w.word === 'string' && Array.isArray(w.meanings)).map(w => ({...w, id: typeof w.id === 'string' && /^[\w-]+$/.test(w.id) ? w.id : crypto.randomUUID()})) : [];
+const errors = e => ({
+  'auth/unauthorized-domain':'Firebase 인증의 승인된 도메인에 intel051.github.io를 추가해 주세요.',
+  'auth/popup-blocked':'팝업이 차단되었어요. 이 사이트의 팝업을 허용하고 다시 눌러 주세요.',
+  'auth/popup-closed-by-user':'로그인이 취소되었어요. 버튼을 눌러 다시 시작하세요.',
+  'auth/operation-not-allowed':'Firebase Authentication에서 Google 로그인을 활성화해 주세요.',
+  'permission-denied':'단어장 접근이 거부되었어요. Firestore 보안 규칙을 확인해 주세요.',
+  'auth/network-request-failed':'네트워크를 확인하고 다시 시도해 주세요.'
+}[e.code] || `연결에 실패했어요. 설정과 네트워크를 확인해 주세요. (${e.code || e.name || 'unknown'})`);
+
+async function boot() {
+  if (!firebaseConfig?.apiKey || !firebaseConfig?.projectId || !firebaseConfig?.authDomain) {
+    status('사이트 연결 설정이 아직 완료되지 않았어요.\n운영자가 Firebase 설정을 추가하면 로그인을 사용할 수 있어요.');
+    return;
+  }
+  const [A, U, F] = await Promise.all([
+    import('https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js'),
+    import('https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js'),
+    import('https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js')
+  ]);
+  const app = A.initializeApp(firebaseConfig), auth = U.getAuth(app);
+  // 메모리 캐시 + 계정별 변경 대기열. 공용 기기에 단어 전체를 영구 캐시하지 않습니다.
+  const db = F.getFirestore(app);
+  await U.setPersistence(auth, U.browserLocalPersistence);
+  let stop = () => {}, uid = null, ready = false, baseline = new Map(), server = new Map();
+  let pending = new Map(), flushing = false, failed = false, migrationPrompt = true;
+  const queueKey = () => 'kotoba:pending:' + firebaseConfig.projectId + ':' + uid;
+  const serialize = w => JSON.stringify(clean(w));
+  function storeQueue() {
+    try { localStorage.setItem(queueKey(), JSON.stringify([...pending])); }
+    catch { sync('기기 백업 공간이 부족해요. 동기화 완료 전 창을 닫지 마세요.'); }
+  }
+  function showWords() {
+    const merged = new Map(server);
+    for (const [id, value] of pending) value === null ? merged.delete(id) : merged.set(id, value);
+    words = [...merged.values()].sort((a,b) => (b.added || 0) - (a.added || 0));
+    baseline = new Map(words.map(w => [w.id, serialize(w)]));
+    render();
+  }
+  async function flush() {
+    if (flushing || !uid || !ready || !pending.size) return;
+    flushing = true; failed = false;
+    const owner = uid, epoch = sessionEpoch;
+    try {
+      while (pending.size && owner === uid && epoch === sessionEpoch) {
+        const [id, value] = pending.entries().next().value, sent = JSON.stringify(value);
+        sync(navigator.onLine ? '동기화 중…' : '연결 대기 중 · 변경 사항은 이 기기에 보관됨');
+        const ref = F.doc(db, 'users', owner, 'words', id);
+        if (value === null) await F.deleteDoc(ref); else await F.setDoc(ref, clean(value));
+        if (epoch !== sessionEpoch) return;
+        // 새 편집이 도착한 경우 그 편집을 대기열에 남깁니다.
+        if (JSON.stringify(pending.get(id)) === sent) pending.delete(id);
+        value === null ? server.delete(id) : server.set(id, value);
+        storeQueue();
+      }
+      if (epoch === sessionEpoch) sync('동기화 완료');
+    } catch(e) { if (epoch === sessionEpoch) { failed = true; sync(errors(e) + ' · 변경 내용은 기기에 보관됨'); } }
+    finally { if (epoch === sessionEpoch) flushing = false; }
+  }
+  saveWords = () => {
+    if (!ready || !uid) return;
+    const next = new Map(words.map(w => [w.id, serialize(w)]));
+    for (const w of words) if (baseline.get(w.id) !== next.get(w.id)) pending.set(w.id, clean(w));
+    for (const id of baseline.keys()) if (!next.has(id)) pending.set(id, null);
+    baseline = next; storeQueue(); flush();
+  };
+  login.disabled = false; status('저장한 단어와 메모를 여러 기기에서 이어서 볼 수 있어요.');
+  login.onclick = async () => {
+    login.disabled = true; status('Google 계정을 선택해 주세요.');
+    try { await U.signInWithPopup(auth, new U.GoogleAuthProvider()); }
+    catch(e) { status(errors(e)); }
+    finally { login.disabled = false; }
+  };
+  async function logout() {
+    document.activeElement?.blur(); // 편집 중인 메모를 먼저 저장
+    if (pending.size) { flush(); toast('동기화가 완료된 후 로그아웃해 주세요.'); return; }
+    try { await U.signOut(auth); } catch(e) { toast(errors(e)); }
+  }
+  document.querySelector('#logout').onclick = logout; reset.onclick = logout;
+  document.querySelector('#skip-import').onclick = () => { migrationPrompt = false; document.querySelector('#migrate').hidden = true; };
+  document.querySelector('#import-local').onclick = () => {
+    if (!ready) return;
+    try {
+      const legacy = normalize(JSON.parse(localStorage.getItem(KEY) || '[]'));
+      for (const w of legacy) if (!words.some(x => same(x,w))) words.push({...w,id:crypto.randomUUID()});
+      persist(); migrationPrompt = false; document.querySelector('#migrate').hidden = true; toast('기존 단어를 가져왔어요');
+    } catch { toast('기존 단어 데이터를 읽지 못했어요.'); }
+  };
+  U.onAuthStateChanged(auth, user => {
+    stop(); sessionEpoch++; uid = user?.uid || null; ready = false; flushing = false;
+    migrationPrompt = true; words = []; current = []; pending = new Map(); server = new Map(); baseline = new Map();
+    io.disconnect(); ctrl?.abort(); clearTimeout(timer); $('#q').value = ''; $('#filter').value = '';
+    $('#results').innerHTML = ''; $('#dlg').close(); render();
+    $('#app').hidden = true; $('#welcome').hidden = false; reset.hidden = !user;
+    if (!user) { status('저장한 단어와 메모를 여러 기기에서 이어서 볼 수 있어요.'); login.hidden = false; login.disabled = false; return; }
+    login.hidden = true; status('계정의 단어장을 불러오는 중…\n연결이 지연되면 네트워크와 Firestore 설정을 확인해 주세요.');
+    $('#account-name').textContent = user.email || user.displayName || '내 계정';
+    try { pending = new Map(JSON.parse(localStorage.getItem(queueKey()) || '[]')); } catch {}
+    const epoch = sessionEpoch;
+    stop = F.onSnapshot(F.collection(db,'users',uid,'words'), {includeMetadataChanges:true}, snapshot => {
+      if (epoch !== sessionEpoch) return;
+      // 최초 캐시의 빈 결과를 실제 빈 단어장으로 취급하지 않습니다.
+      if (!ready && snapshot.metadata.fromCache) return;
+      // 포커스 중인 편집도 원격 갱신 전에 대기열로 보존합니다.
+      const focused = document.activeElement;
+      if (focused?.isContentEditable && focused.closest('#saved')) focused.blur();
+      server = new Map(snapshot.docs.map(d => [d.id, {...d.data(),id:d.id}]));
+      ready = true; showWords();
+      $('#welcome').hidden = true; $('#app').hidden = false;
+      try { $('#migrate').hidden = !migrationPrompt || !normalize(JSON.parse(localStorage.getItem(KEY) || '[]')).length; } catch {}
+      if (!failed) sync(pending.size || snapshot.metadata.hasPendingWrites ? '동기화 중…' : snapshot.metadata.fromCache ? '연결 대기 중' : '동기화 완료');
+      flush();
+    }, e => {
+      if (epoch !== sessionEpoch) return;
+      ready = false; $('#app').hidden = true; $('#welcome').hidden = false; reset.hidden = false;
+      status(errors(e) + '\n설정을 수정한 뒤 새로고침해 주세요.');
+    });
+  });
+  window.addEventListener('online', () => flush());
+  window.addEventListener('beforeunload', e => { if (pending.size) { e.preventDefault(); e.returnValue = ''; } });
+  // 권한·네트워크 오류가 복구된 뒤 재시도
+  setInterval(() => { if (navigator.onLine && pending.size && !flushing) flush(); }, 15000);
+}
+boot().catch(e => { status(errors(e)); login.disabled = true; });
+
 </script>
 </body>
 </html>
